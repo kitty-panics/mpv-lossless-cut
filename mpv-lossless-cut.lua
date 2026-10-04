@@ -253,9 +253,14 @@ local function render_cut(input, outpath, start, duration, input_mtime)
 		tostring(duration),
 		"-i",
 		input,
-		-- copy all input streams
+		-- -- copy all input streams
+		-- "-map",
+		-- "0",
+		-- only map video and audio streams (skip data streams like tmcd)
 		"-map",
-		"0",
+		"0:v",
+		"-map",
+		"0:a",
 		-- shift timestamps so they start at 0
 		"-avoid_negative_ts",
 		"make_zero",
@@ -306,9 +311,14 @@ local function merge_cuts(temp_dir, filepaths, outpath, input_mtime)
 		-- don't re-encode
 		"-c",
 		"copy",
-		-- copy all input streams
+		-- -- copy all input streams
+		-- "-map",
+		-- "0",
+		-- only map video and audio streams
 		"-map",
-		"0",
+		"0:v",
+		"-map",
+		"0:a",
 		outpath,
 	})
 
